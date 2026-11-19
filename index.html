@@ -4,110 +4,120 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101827">
 <meta name="description" content="VIP Earn & Rewards - Discover genuine sponsored tasks, surveys and reward opportunities.">
 <title>VIP Earn & Rewards</title>
 
 <style>
 :root {
   --navy:#101827;
+  --navy2:#17243a;
   --gold:#f4c45e;
   --light:#ffe2a0;
-  --text:#f7f8fb;
+  --white:#f7f8fb;
   --muted:#b8c2d3;
-  --panel:rgba(255,255,255,.07);
-  --line:rgba(255,255,255,.13);
+  --panel:#1b2940;
+  --line:rgba(255,255,255,.12);
 }
-*{box-sizing:border-box;scroll-behavior:smooth}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
-  margin:0;
   font-family:Arial,Helvetica,sans-serif;
-  color:var(--text);
-  background:radial-gradient(circle at top right,#293a55 0,var(--navy) 48%,#0b1220 100%);
-  line-height:1.6;
+  background:var(--navy);
+  color:var(--white);
+  line-height:1.7;
 }
-.wrap{width:min(1100px,92%);margin:auto}
+a{color:inherit;text-decoration:none}
+.wrap{width:90%;max-width:1120px;margin:auto}
 header{
-  position:sticky;top:0;z-index:10;
-  background:#101827ed;
+  background:rgba(16,24,39,.97);
   border-bottom:1px solid var(--line);
-  backdrop-filter:blur(12px);
+  position:sticky;top:0;z-index:100;
 }
 .nav{
-  min-height:72px;display:flex;align-items:center;
-  justify-content:space-between;gap:15px;flex-wrap:wrap;
+  min-height:72px;display:flex;
+  align-items:center;justify-content:space-between;
+  gap:20px;
 }
-.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px}
-.logo{
-  width:42px;height:42px;border-radius:13px;
-  display:grid;place-items:center;
-  color:#172338;background:linear-gradient(135deg,var(--light),var(--gold));
-  font-weight:900;
+.logo{font-size:21px;font-weight:800;color:var(--gold)}
+.nav-links{display:flex;gap:22px;flex-wrap:wrap;font-size:14px}
+.nav-links a:hover,footer a:hover{color:var(--light)}
+.hero{
+  padding:100px 0 90px;text-align:center;
+  background:radial-gradient(ellipse at top,#263b5c 0%,transparent 65%),var(--navy);
 }
-nav{display:flex;gap:20px;flex-wrap:wrap}
-nav a{color:var(--muted);text-decoration:none;font-size:14px}
-nav a:hover{color:var(--gold)}
-.hero{text-align:center;padding:80px 0 65px}
 .tag{
-  display:inline-block;padding:7px 15px;
-  border:1px solid #f4c45e66;border-radius:30px;
-  color:var(--light);background:#f4c45e12;
-  font-size:12px;font-weight:bold;letter-spacing:1px;
+  display:inline-block;color:var(--gold);
+  border:1px solid rgba(244,196,94,.4);
+  border-radius:30px;padding:7px 17px;
+  font-size:12px;letter-spacing:2px;margin-bottom:22px;
 }
-h1{font-size:clamp(38px,7vw,66px);line-height:1.1;margin:22px 0 14px}
-.gold{color:var(--gold)}
-.intro{max-width:680px;margin:auto;color:var(--muted);font-size:18px}
+h1{font-size:clamp(36px,7vw,65px);line-height:1.15;margin-bottom:20px}
+h1 span,h2 span{color:var(--gold)}
+.hero p{max-width:680px;margin:auto;color:var(--muted);font-size:17px}
 .notice{
-  max-width:760px;margin:28px auto 0;padding:16px;
-  border-radius:14px;border:1px solid #f4c45e66;
-  background:#f4c45e12;color:#ffe7b5;font-size:14px;
+  margin:30px auto 0;max-width:700px;padding:15px 18px;
+  background:rgba(244,196,94,.09);
+  border:1px solid rgba(244,196,94,.35);
+  border-radius:12px;color:var(--light);font-size:14px;
 }
-.section{padding:35px 0 55px}
-.section h2{text-align:center;font-size:30px;margin:0 0 8px}
-.sub{text-align:center;color:var(--muted);max-width:650px;margin:0 auto 28px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.section{padding:75px 0}
+.section-title{text-align:center;margin-bottom:40px}
+.section-title h2{font-size:clamp(28px,5vw,40px);margin-bottom:10px}
+.section-title p{color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .card{
-  padding:25px;border:1px solid var(--line);
-  border-radius:18px;background:var(--panel);
-  transition:transform .2s,border-color .2s;
+  background:var(--panel);border:1px solid var(--line);
+  padding:28px;border-radius:16px;transition:.2s;
 }
-.card:hover{transform:translateY(-4px);border-color:#f4c45e88}
-.icon{font-size:32px}
-.card h3{color:var(--light);margin:12px 0 7px}
-.card p{color:var(--muted);font-size:14px;margin:0}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.step{
-  text-align:center;padding:24px 17px;
-  border-radius:16px;background:var(--panel);
+.card:hover{transform:translateY(-5px);border-color:var(--gold)}
+.card .icon{font-size:35px;margin-bottom:15px}
+.card h3{color:var(--gold);font-size:21px;margin-bottom:10px}
+.card p{color:var(--muted);font-size:14px}
+.how{background:var(--navy2)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.step{text-align:center;padding:25px}
+.number{
+  width:55px;height:55px;display:grid;place-items:center;
+  margin:0 auto 18px;border-radius:50%;
+  background:var(--gold);color:var(--navy);
+  font-size:22px;font-weight:800;
+}
+.step h3{color:var(--gold);margin-bottom:8px}
+.step p{color:var(--muted);font-size:14px}
+.about-box{
+  max-width:850px;margin:auto;text-align:center;
+  background:var(--panel);padding:35px;border-radius:16px;
   border:1px solid var(--line);
 }
-.num{
-  width:40px;height:40px;margin:0 auto 12px;
-  display:grid;place-items:center;border-radius:50%;
-  background:var(--gold);color:var(--navy);font-weight:900;
+.about-box p{color:var(--muted);margin-top:12px}
+.safety{background:var(--navy2)}
+.safety-list{max-width:800px;margin:auto;display:grid;gap:15px}
+.safety-item{
+  background:var(--panel);padding:18px 22px;
+  border:1px solid var(--line);border-radius:12px;
 }
-.info{
-  max-width:850px;margin:auto;padding:25px;
-  border:1px solid var(--line);border-radius:18px;
-  background:var(--panel);
+.safety-item h3{color:var(--gold);font-size:17px}
+.safety-item p{color:var(--muted);font-size:14px;margin-top:5px}
+.faq-list{max-width:800px;margin:auto;display:grid;gap:15px}
+.faq-item{
+  padding:20px;background:var(--panel);
+  border:1px solid var(--line);border-radius:12px;
 }
-.info p{color:var(--muted)}
-.faq-item{padding:16px 0;border-bottom:1px solid var(--line)}
-.faq-item:last-child{border:0}
-.faq-item h3{font-size:16px;color:var(--light);margin:0 0 6px}
-.faq-item p{font-size:14px;color:var(--muted);margin:0}
+.faq-item h3{color:var(--gold);font-size:17px;margin-bottom:7px}
+.faq-item p{color:var(--muted);font-size:14px}
 footer{
-  margin-top:25px;padding:28px 0;text-align:center;
+  padding:35px 0;text-align:center;
   border-top:1px solid var(--line);
   color:var(--muted);font-size:13px;
 }
 footer a{color:var(--gold);text-decoration:none}
-@media(max-width:700px){
-  .nav{padding:12px 0}
-  nav{gap:13px}
-  .hero{padding:58px 0 45px}
-  .grid,.steps{grid-template-columns:1fr}
-  .section h2{font-size:26px}
+.footer-links{margin:12px 0}
+@media(max-width:760px){
+  .nav{padding:14px 0;align-items:flex-start;flex-direction:column}
+  .nav-links{gap:12px;font-size:13px}
+  .hero{padding:70px 0}
+  .cards,.steps{grid-template-columns:1fr}
+  .section{padding:55px 0}
 }
 </style>
 </head>
@@ -115,13 +125,11 @@ footer a{color:var(--gold);text-decoration:none}
 <body>
 <header>
   <div class="wrap nav">
-    <div class="brand">
-      <div class="logo">VIP</div>
-      <div>VIP <span class="gold">Earn & Rewards</span></div>
-    </div>
-    <nav>
+    <a class="logo" href="#home">VIP Earn & Rewards</a>
+    <nav class="nav-links">
       <a href="#home">Home</a>
       <a href="#earn">Ways to Earn</a>
+      <a href="#how">How It Works</a>
       <a href="#about">About</a>
       <a href="#safety">Safety</a>
       <a href="#faq">FAQ</a>
@@ -130,111 +138,173 @@ footer a{color:var(--gold);text-decoration:none}
 </header>
 
 <main>
-<section class="hero wrap" id="home">
-  <div class="tag">A NEW REWARDS EXPERIENCE</div>
-  <h1>Earn with <span class="gold">VIP</span><br>Earn & Rewards</h1>
-  <p class="intro">
-    Discover genuine sponsored tasks, surveys and reward opportunities.
-    We are preparing a transparent rewards platform for users.
-  </p>
-  <div class="notice">
-    <strong>Pre-launch notice:</strong>
-    User accounts, earning activities, coins and withdrawals are not active yet.
-    Never pay anyone to join or unlock rewards.
-  </div>
-</section>
-
-<section class="section wrap" id="earn">
-  <h2>Ways to <span class="gold">Earn</span></h2>
-  <p class="sub">When the platform launches, eligible opportunities may include:</p>
-  <div class="grid">
-    <article class="card">
-      <div class="icon">📋</div>
-      <h3>Surveys</h3>
-      <p>Share genuine feedback through approved survey partners.
-      Availability and rewards will depend on partner rules.</p>
-    </article>
-    <article class="card">
-      <div class="icon">🎯</div>
-      <h3>Sponsored Tasks</h3>
-      <p>Complete clearly explained tasks from participating sponsors.
-      Only valid and verified completions can qualify.</p>
-    </article>
-    <article class="card">
-      <div class="icon">🎁</div>
-      <h3>Rewards</h3>
-      <p>Eligible rewards and withdrawal methods will be announced
-      only after partner and payment arrangements are confirmed.</p>
-    </article>
-  </div>
-</section>
-
-<section class="section wrap">
-  <h2>How It Will <span class="gold">Work</span></h2>
-  <p class="sub">A simple process designed around clear rules.</p>
-  <div class="steps">
-    <div class="step">
-      <div class="num">1</div>
-      <strong>Create an Account</strong>
-      <p class="sub">Registration will open after launch.</p>
-    </div>
-    <div class="step">
-      <div class="num">2</div>
-      <strong>Complete Eligible Activities</strong>
-      <p class="sub">Follow each partner's instructions honestly.</p>
-    </div>
-    <div class="step">
-      <div class="num">3</div>
-      <strong>Request a Reward</strong>
-      <p class="sub">Payment options and minimum limits will be published when confirmed.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section wrap" id="about">
-  <h2>About <span class="gold">VIP Earn & Rewards</span></h2>
-  <div class="info">
+<section class="hero" id="home">
+  <div class="wrap">
+    <div class="tag">A NEW REWARDS EXPERIENCE</div>
+    <h1>Welcome to <span>VIP Earn & Rewards</span></h1>
     <p>
-      VIP Earn & Rewards is being developed to bring eligible sponsored
-      activities and reward opportunities together in one place.
+      Discover sponsored tasks, surveys and reward opportunities
+      through a platform designed around transparency and trust.
     </p>
-    <p>
-      Our goal is to explain every activity clearly, follow partner rules
-      and keep reward conditions transparent. The platform is currently
-      in its pre-launch stage.
-    </p>
+    <div class="notice">
+      <strong>Pre-Launch Notice:</strong>
+      Registration, earning activities, coin balances and withdrawals
+      are not active yet. Please do not make any payment to anyone
+      claiming to represent this platform.
+    </div>
   </div>
 </section>
 
-<section class="section wrap" id="safety">
-  <h2>Safety & <span class="gold">Trust</span></h2>
-  <div class="info">
-    <p>✓ No payment is required to join the platform.</p>
-    <p>✓ No guaranteed income or rewards are promised.</p>
-    <p>✓ Only approved and eligible partner activities may be offered.</p>
-    <p>✓ Reward and withdrawal rules will be shared before launch.</p>
-    <p>✓ Never share your password, OTP or private banking details with strangers.</p>
+<section class="section" id="earn">
+  <div class="wrap">
+    <div class="section-title">
+      <h2>Ways to <span>Earn</span></h2>
+      <p>Explore the reward opportunities planned for the platform.</p>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="icon">📝</div>
+        <h3>Surveys</h3>
+        <p>
+          Participate in eligible surveys from genuine research
+          partners when available.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🎯</div>
+        <h3>Sponsored Tasks</h3>
+        <p>
+          Complete approved sponsor tasks and follow their
+          requirements to qualify for rewards.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🏆</div>
+        <h3>Rewards</h3>
+        <p>
+          Eligible activities may provide rewards after
+          partner verification and approval.
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="section wrap" id="faq">
-  <h2>Frequently Asked <span class="gold">Questions</span></h2>
-  <div class="info">
-    <div class="faq-item">
-      <h3>Is VIP Earn & Rewards open now?</h3>
-      <p>No. The website is currently in pre-launch stage.</p>
+<section class="section how" id="how">
+  <div class="wrap">
+    <div class="section-title">
+      <h2>How It <span>Will Work</span></h2>
+      <p>A simple process planned for future launch.</p>
     </div>
-    <div class="faq-item">
-      <h3>Can I earn coins today?</h3>
-      <p>No. Accounts, tasks and coins are not active yet.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="number">1</div>
+        <h3>Create an Account</h3>
+        <p>Get your own VIP account when registration becomes available.</p>
+      </div>
+
+      <div class="step">
+        <div class="number">2</div>
+        <h3>Complete Activities</h3>
+        <p>Choose eligible surveys and sponsored tasks.</p>
+      </div>
+
+      <div class="step">
+        <div class="number">3</div>
+        <h3>Receive Eligible Rewards</h3>
+        <p>Approved rewards will follow published terms and payment rules.</p>
+      </div>
     </div>
-    <div class="faq-item">
-      <h3>Do I need to pay to join?</h3>
-      <p>No. Never pay anyone to join or unlock rewards.</p>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="section-title">
+      <h2>About <span>VIP Earn & Rewards</span></h2>
     </div>
-    <div class="faq-item">
-      <h3>Which withdrawal methods will be available?</h3>
-      <p>Payment methods will be announced only after arrangements are verified.</p>
+    <div class="about-box">
+      <h3>A Platform Built on Trust</h3>
+      <p>
+        Our goal is to build a transparent rewards platform
+        connecting users with genuine sponsored opportunities
+        and research activities.
+      </p>
+      <p>
+        We aim to protect user privacy, explain reward conditions
+        clearly and work only with partners whose terms allow
+        incentivized participation.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section safety" id="safety">
+  <div class="wrap">
+    <div class="section-title">
+      <h2>Safety & <span>Trust</span></h2>
+      <p>Honest information and responsible platform practices.</p>
+    </div>
+
+    <div class="safety-list">
+      <div class="safety-item">
+        <h3>🔐 Privacy Matters</h3>
+        <p>We aim to collect only information genuinely needed to operate the service.</p>
+      </div>
+
+      <div class="safety-item">
+        <h3>✓ Genuine Opportunities</h3>
+        <p>Activities will be offered only when the relevant partner permits reward-based participation.</p>
+      </div>
+
+      <div class="safety-item">
+        <h3>💰 No Guaranteed Income</h3>
+        <p>Rewards depend on eligibility, task completion, partner approval and available payment arrangements.</p>
+      </div>
+
+      <div class="safety-item">
+        <h3>🛡️ No Payment to Join</h3>
+        <p>Do not send money to anyone promising guaranteed earnings or account activation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="section-title">
+      <h2>Frequently Asked <span>Questions</span></h2>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <h3>Is VIP Earn & Rewards active?</h3>
+        <p>No. The website is currently in pre-launch development. Registration and earning features are not active.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Can I earn guaranteed money?</h3>
+        <p>No guaranteed income is promised. Any future rewards will depend on approved activities and partner terms.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Will withdrawals be available?</h3>
+        <p>Withdrawal methods and eligibility will be announced only after payment arrangements are verified.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Do I need to pay to join?</h3>
+        <p>No joining payment is being requested. Do not pay anyone claiming otherwise.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How will my information be handled?</h3>
+        <p>Please read our Privacy Policy for information about intended data collection and use.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -242,10 +312,19 @@ footer a{color:var(--gold);text-decoration:none}
 
 <footer>
   <div class="wrap">
-    © 2026 VIP Earn & Rewards. All rights reserved.<br>
-    Rewards are not guaranteed. Offers, eligibility and payment terms
-    will be disclosed before launch.
+    © 2026 VIP Earn & Rewards. All rights reserved.
+
+    <div class="footer-links">
+      <a href="privacy.html">Privacy Policy</a>
+      &nbsp; | &nbsp;
+      <a href="terms.html">Terms & Conditions</a>
+    </div>
+
+    Rewards are not guaranteed. Offers, eligibility and payment
+    terms will be disclosed before launch.
   </div>
 </footer>
+
 </body>
-</html>
+  </html>
+      
