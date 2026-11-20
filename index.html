@@ -37,11 +37,30 @@ button:disabled{opacity:.6}
 .message{display:none;padding:12px;border-radius:7px;margin-top:15px;overflow-wrap:anywhere}
 .success{display:block;background:#123d2b;color:#a7f3c4}
 .error{display:block;background:#4b2020;color:#ffb5b5}
-.hidden{display:none}
+.hidden{display:none!important}
 small{color:#c5ced9}
 footer{text-align:center;background:#0c1d33;padding:25px;border-top:1px solid #c99b35}
 footer a{color:#e5b84b;margin:8px}
-@media(max-width:600px){header{justify-content:center;text-align:center}nav{width:100%}.hero{padding:45px 15px}}
+
+.dashboard{max-width:850px;margin:20px auto;background:#10233c;border:1px solid #c99b35;border-radius:12px;padding:22px}
+.dashboard h2{margin-bottom:8px}
+.vip-welcome{text-align:center;color:#c5ced9;margin-bottom:22px}
+.vip-id-box{background:#071426;border:1px solid #c99b35;border-radius:10px;padding:18px;text-align:center;margin-bottom:18px}
+.vip-id-box strong{display:block;color:#e5b84b;font-size:25px;overflow-wrap:anywhere}
+.dashboard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.dash-card{background:#0c1d33;border:1px solid #49617d;border-radius:9px;padding:18px;text-align:center}
+.dash-card h3{color:#e5b84b;font-size:16px;margin-bottom:8px}
+.dash-card p{font-size:18px;font-weight:bold}
+.status-note{background:#332b16;border:1px solid #c99b35;border-radius:8px;padding:14px;margin-top:18px;text-align:center;color:#f5d98b}
+.history-box{margin-top:20px;background:#0c1d33;border-radius:9px;padding:18px}
+.history-box h3{color:#e5b84b;margin-bottom:8px}
+.logout-btn{width:100%;padding:13px;border:1px solid #d46a6a;border-radius:7px;background:#4b2020;color:white;font-weight:bold;margin-top:18px}
+@media(max-width:600px){
+header{justify-content:center;text-align:center}
+nav{width:100%}
+.hero{padding:45px 15px}
+.dashboard{padding:15px}
+}
 </style>
 </head>
 
@@ -88,9 +107,10 @@ footer a{color:#e5b84b;margin:8px}
 
 <section class="section" id="account">
 <h2>VIP Member Account</h2>
-<div class="account">
 
-<div class="tabs">
+<div class="account" id="accountBox">
+
+<div class="tabs" id="accountTabs">
 <button type="button" id="signupTab" class="active">Sign Up</button>
 <button type="button" id="loginTab">Login</button>
 </div>
@@ -121,6 +141,44 @@ footer a{color:#e5b84b;margin:8px}
 </form>
 
 <div id="message" class="message" role="status" aria-live="polite"></div>
+
+<div id="dashboard" class="dashboard hidden">
+<h2>VIP Member Dashboard</h2>
+<p class="vip-welcome">Welcome to your VIP account!</p>
+
+<div class="vip-id-box">
+<small>Your VIP Member ID</small>
+<strong id="dashboardVipId">VIP</strong>
+</div>
+
+<div class="dashboard-grid">
+<div class="dash-card">
+<h3>Coins</h3>
+<p>Not Active</p>
+</div>
+<div class="dash-card">
+<h3>Total Earnings</h3>
+<p>Not Active</p>
+</div>
+<div class="dash-card">
+<h3>Withdrawals</h3>
+<p>Not Active</p>
+</div>
+</div>
+
+<div class="status-note">
+<strong>Pre-Launch Status</strong>
+<p>Reward activities and withdrawals are not available yet. Your account is successfully registered.</p>
+</div>
+
+<div class="history-box">
+<h3>Reward History</h3>
+<p>Reward history will appear here when the reward system is activated.</p>
+</div>
+
+<button type="button" class="logout-btn" id="logoutButton">Log Out</button>
+</div>
+
 </div>
 </section>
 
@@ -158,8 +216,8 @@ footer a{color:#e5b84b;margin:8px}
 <script>
 const FUNCTION_URL="https://xrwrgdrzbroxtfyabjmy.supabase.co/functions/v1/quick-worker";
 
+const SUPABASE_URL="https://xrwrgdrzbroxtfyabjmy.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_GGCK4q2VTjk8yj-nSRVEjA_KPuUQCXJ";
-
 const TURNSTILE_SITE_KEY="0x4AAAAAAGJrBih7vc_qcwZA";
 
 let signupToken="";
@@ -182,11 +240,24 @@ box.className="message";
 
 function showForm(name){
 clearMessage();
+document.getElementById("dashboard").classList.add("hidden");
+document.getElementById("accountTabs").classList.remove("hidden");
+
 const signup=name==="signup";
 document.getElementById("signupForm").classList.toggle("hidden",!signup);
 document.getElementById("loginForm").classList.toggle("hidden",signup);
 document.getElementById("signupTab").classList.toggle("active",signup);
 document.getElementById("loginTab").classList.toggle("active",!signup);
+}
+
+function showDashboard(vipId){
+clearMessage();
+document.getElementById("signupForm").classList.add("hidden");
+document.getElementById("loginForm").classList.add("hidden");
+document.getElementById("accountTabs").classList.add("hidden");
+document.getElementById("dashboardVipId").textContent=vipId;
+document.getElementById("dashboard").classList.remove("hidden");
+document.getElementById("dashboard").scrollIntoView({behavior:"smooth",block:"start"});
 }
 
 document.getElementById("signupTab").addEventListener("click",()=>showForm("signup"));
@@ -313,11 +384,17 @@ password:password,
 turnstile_token:loginToken
 });
 
-currentSession=result.session||null;
-showMessage("Login successful! Welcome, "+vipId,"success");
+if(!result.session || !result.session.access_token){
+throw new Error("Login response did not include a valid session. Please contact support.");
+}
+
+currentSession=result.session;
+
 document.getElementById("loginForm").reset();
 loginToken="";
 turnstile.reset(loginWidget);
+
+showDashboard(vipId);
 
 }catch(error){
 showMessage(error.message||"Login failed. Check your VIP ID and password.","error");
@@ -328,8 +405,44 @@ button.disabled=false;
 button.textContent="Login to Account";
 }
 });
+
+document.getElementById("logoutButton").addEventListener("click",async function(){
+const button=this;
+button.disabled=true;
+button.textContent="Logging Out...";
+
+try{
+if(!currentSession || !currentSession.access_token){
+throw new Error("Your login session is not available. Please refresh and log in again.");
+}
+
+const response=await fetch(SUPABASE_URL+"/auth/v1/logout",{
+method:"POST",
+headers:{
+"apikey":SUPABASE_PUBLISHABLE_KEY,
+"Authorization":"Bearer "+currentSession.access_token
+}
+});
+
+if(!response.ok){
+throw new Error("Logout could not be confirmed. Please try again.");
+}
+
+currentSession=null;
+document.getElementById("dashboard").classList.add("hidden");
+document.getElementById("accountTabs").classList.remove("hidden");
+showForm("login");
+showMessage("You have logged out successfully.","success");
+
+}catch(error){
+alert(error.message||"Unable to log out.");
+}finally{
+button.disabled=false;
+button.textContent="Log Out";
+}
+});
 </script>
 
 </body>
-                    </html>
+                  </html>
   
