@@ -32,7 +32,7 @@ label{display:block;color:#e5b84b;margin:12px 0 5px}
 input{width:100%;padding:13px;border:1px solid #49617d;border-radius:7px;background:#071426;color:white;font-size:16px}
 .main-btn{width:100%;padding:14px;border:0;border-radius:7px;background:#e5b84b;color:#071426;font-size:16px;font-weight:bold;margin-top:12px}
 button{cursor:pointer}
-button:disabled{opacity:.6}
+button:disabled{opacity:.6;cursor:not-allowed}
 .captcha{margin:16px 0;min-height:65px;overflow-x:auto}
 .message{display:none;padding:12px;border-radius:7px;margin-top:15px;overflow-wrap:anywhere}
 .success{display:block;background:#123d2b;color:#a7f3c4}
@@ -51,13 +51,17 @@ footer a{color:#e5b84b;margin:8px}
 .dash-card h3{color:#e5b84b;font-size:16px;margin-bottom:8px}
 .dash-card p{font-size:18px;font-weight:bold}
 .status-note{background:#332b16;border:1px solid #c99b35;border-radius:8px;padding:14px;margin-top:18px;text-align:center;color:#f5d98b}
-.history-box{margin-top:20px;background:#0c1d33;border-radius:9px;padding:18px}
-.history-box h3{color:#e5b84b;margin-bottom:8px}
+.history-box,.admin-box{margin-top:20px;background:#0c1d33;border-radius:9px;padding:18px}
+.history-box h3,.admin-box h3{color:#e5b84b;margin-bottom:8px}
 .history-item{padding:12px 0;border-bottom:1px solid #49617d;overflow-wrap:anywhere}
 .history-item:last-child{border-bottom:0}
 .history-item strong{color:#e5b84b}
 .history-meta{color:#c5ced9;font-size:13px}
 .history-status{color:#c5ced9;padding:10px 0}
+.admin-box{border:1px solid #c99b35}
+.admin-title{color:#e5b84b;text-align:center;font-size:21px;margin-bottom:12px}
+.admin-note{font-size:13px;color:#c5ced9;margin-bottom:12px}
+.admin-btn{width:100%;padding:13px;border:0;border-radius:7px;background:#e5b84b;color:#071426;font-weight:bold;margin-top:12px}
 .logout-btn{width:100%;padding:13px;border:1px solid #d46a6a;border-radius:7px;background:#4b2020;color:white;font-weight:bold;margin-top:18px}
 @media(max-width:600px){
 header{justify-content:center;text-align:center}
@@ -180,6 +184,26 @@ nav{width:100%}
 <div id="rewardHistoryList" class="history-status" aria-live="polite">Login to view your reward history.</div>
 </div>
 
+<div id="adminPanel" class="admin-box hidden">
+<h3 class="admin-title">VIP Admin Panel</h3>
+<p class="admin-note">Only authorized administrators can add rewards. Add rewards only after genuine verification.</p>
+
+<form id="adminRewardForm">
+<label for="rewardVipId">Member VIP ID</label>
+<input id="rewardVipId" type="text" maxlength="30" required placeholder="Example: VIP10001">
+
+<label for="rewardAmount">Reward Amount</label>
+<input id="rewardAmount" type="number" min="1" step="1" required placeholder="Enter amount">
+
+<label for="rewardDescription">Reward Description</label>
+<input id="rewardDescription" type="text" maxlength="200" required placeholder="Reason for this reward">
+
+<button class="admin-btn" id="addRewardButton" type="submit">Add Verified Reward</button>
+</form>
+
+<div id="adminMessage" class="message" role="status" aria-live="polite"></div>
+</div>
+
 <button type="button" class="logout-btn" id="logoutButton">Log Out</button>
 </div>
 
@@ -235,6 +259,12 @@ box.textContent=message;
 box.className="message "+type;
 }
 
+function showAdminMessage(message,type){
+const box=document.getElementById("adminMessage");
+box.textContent=message;
+box.className="message "+type;
+}
+
 function clearMessage(){
 const box=document.getElementById("message");
 box.textContent="";
@@ -253,6 +283,13 @@ document.getElementById("signupTab").classList.toggle("active",signup);
 document.getElementById("loginTab").classList.toggle("active",!signup);
 }
 
+function authHeaders(){
+return {
+"apikey":SUPABASE_PUBLISHABLE_KEY,
+"Authorization":"Bearer "+currentSession.access_token
+};
+}
+
 function showDashboard(vipId){
 clearMessage();
 document.getElementById("signupForm").classList.add("hidden");
@@ -262,6 +299,7 @@ document.getElementById("dashboardVipId").textContent=vipId;
 document.getElementById("dashboard").classList.remove("hidden");
 document.getElementById("dashboard").scrollIntoView({behavior:"smooth",block:"start"});
 loadRewardHistory();
+checkAdminAccess();
 }
 
 async function loadRewardHistory(){
@@ -278,10 +316,7 @@ const response=await fetch(
 SUPABASE_URL+"/rest/v1/reward_ledger?select=amount,description,created_at&order=created_at.desc&limit=50",
 {
 method:"GET",
-headers:{
-"apikey":SUPABASE_PUBLISHABLE_KEY,
-"Authorization":"Bearer "+currentSession.access_token
-}
+headers:authHeaders()
 }
 );
 
@@ -323,6 +358,108 @@ list.appendChild(item);
 list.textContent=error.message || "Reward history could not be loaded.";
 }
 }
+
+async function checkAdminAccess(){
+const panel=document.getElementById("adminPanel");
+panel.classList.add("hidden");
+
+if(!currentSession || !currentSession.access_token){
+return;
+}
+
+try{
+const response=await fetch(
+SUPABASE_URL+"/rest/v1/admin_users?select=user_id&limit=1",
+{
+method:"GET",
+headers:authHeaders()
+}
+);
+
+if(!response.ok){
+return;
+}
+
+const rows=await response.json();
+
+if(Array.isArray(rows) && rows.length>0){
+panel.classList.remove("hidden");
+}
+}catch(error){
+panel.classList.add("hidden");
+}
+}
+
+document.getElementById("adminRewardForm").addEventListener("submit",async function(event){
+event.preventDefault();
+
+const button=document.getElementById("addRewardButton");
+const vipId=document.getElementById("rewardVipId").value.trim().toUpperCase();
+const amount=Number(document.getElementById("rewardAmount").value);
+const description=document.getElementById("rewardDescription").value.trim();
+
+if(!currentSession || !currentSession.access_token){
+showAdminMessage("Please log in again.","error");
+return;
+}
+
+if(!vipId){
+showAdminMessage("Enter a valid VIP ID.","error");
+return;
+}
+
+if(!Number.isSafeInteger(amount) || amount<=0){
+showAdminMessage("Enter a valid positive whole-number amount.","error");
+return;
+}
+
+if(!description || description.length>200){
+showAdminMessage("Description must be 1 to 200 characters.","error");
+return;
+}
+
+button.disabled=true;
+button.textContent="Adding Reward...";
+showAdminMessage("Verifying admin permission...","success");
+
+try{
+const response=await fetch(
+SUPABASE_URL+"/rest/v1/rpc/admin_add_reward",
+{
+method:"POST",
+headers:{
+...authHeaders(),
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+p_vip_id:vipId,
+p_amount:amount,
+p_description:description
+})
+}
+);
+
+let result=null;
+try{
+result=await response.json();
+}catch{}
+
+if(!response.ok){
+const serverMessage=result?.message||result?.error||"Reward could not be added.";
+throw new Error(serverMessage);
+}
+
+document.getElementById("adminRewardForm").reset();
+showAdminMessage("Reward added successfully for "+vipId+".","success");
+await loadRewardHistory();
+
+}catch(error){
+showAdminMessage(error.message||"Unable to add reward.","error");
+}finally{
+button.disabled=false;
+button.textContent="Add Verified Reward";
+}
+});
 
 document.getElementById("signupTab").addEventListener("click",()=>showForm("signup"));
 document.getElementById("loginTab").addEventListener("click",()=>showForm("login"));
@@ -493,20 +630,4 @@ throw new Error("Logout could not be confirmed. Please try again.");
 }
 
 currentSession=null;
-document.getElementById("dashboard").classList.add("hidden");
-document.getElementById("accountTabs").classList.remove("hidden");
-showForm("login");
-showMessage("You have logged out successfully.","success");
-
-}catch(error){
-alert(error.message||"Unable to log out.");
-}finally{
-button.disabled=false;
-button.textContent="Log Out";
-}
-});
-</script>
-
-</body>
-  </html>
-  
+document.getElementById("adminPanel").classList.add("hidden"
