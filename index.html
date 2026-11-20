@@ -41,7 +41,6 @@ button:disabled{opacity:.6}
 small{color:#c5ced9}
 footer{text-align:center;background:#0c1d33;padding:25px;border-top:1px solid #c99b35}
 footer a{color:#e5b84b;margin:8px}
-
 .dashboard{max-width:850px;margin:20px auto;background:#10233c;border:1px solid #c99b35;border-radius:12px;padding:22px}
 .dashboard h2{margin-bottom:8px}
 .vip-welcome{text-align:center;color:#c5ced9;margin-bottom:22px}
@@ -54,6 +53,11 @@ footer a{color:#e5b84b;margin:8px}
 .status-note{background:#332b16;border:1px solid #c99b35;border-radius:8px;padding:14px;margin-top:18px;text-align:center;color:#f5d98b}
 .history-box{margin-top:20px;background:#0c1d33;border-radius:9px;padding:18px}
 .history-box h3{color:#e5b84b;margin-bottom:8px}
+.history-item{padding:12px 0;border-bottom:1px solid #49617d;overflow-wrap:anywhere}
+.history-item:last-child{border-bottom:0}
+.history-item strong{color:#e5b84b}
+.history-meta{color:#c5ced9;font-size:13px}
+.history-status{color:#c5ced9;padding:10px 0}
 .logout-btn{width:100%;padding:13px;border:1px solid #d46a6a;border-radius:7px;background:#4b2020;color:white;font-weight:bold;margin-top:18px}
 @media(max-width:600px){
 header{justify-content:center;text-align:center}
@@ -173,7 +177,7 @@ nav{width:100%}
 
 <div class="history-box">
 <h3>Reward History</h3>
-<p>Reward history will appear here when the reward system is activated.</p>
+<div id="rewardHistoryList" class="history-status" aria-live="polite">Login to view your reward history.</div>
 </div>
 
 <button type="button" class="logout-btn" id="logoutButton">Log Out</button>
@@ -215,7 +219,6 @@ nav{width:100%}
 
 <script>
 const FUNCTION_URL="https://xrwrgdrzbroxtfyabjmy.supabase.co/functions/v1/quick-worker";
-
 const SUPABASE_URL="https://xrwrgdrzbroxtfyabjmy.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_GGCK4q2VTjk8yj-nSRVEjA_KPuUQCXJ";
 const TURNSTILE_SITE_KEY="0x4AAAAAAGJrBih7vc_qcwZA";
@@ -258,6 +261,67 @@ document.getElementById("accountTabs").classList.add("hidden");
 document.getElementById("dashboardVipId").textContent=vipId;
 document.getElementById("dashboard").classList.remove("hidden");
 document.getElementById("dashboard").scrollIntoView({behavior:"smooth",block:"start"});
+loadRewardHistory();
+}
+
+async function loadRewardHistory(){
+const list=document.getElementById("rewardHistoryList");
+list.textContent="Loading reward history...";
+
+if(!currentSession || !currentSession.access_token){
+list.textContent="Your login session is not available. Please log in again.";
+return;
+}
+
+try{
+const response=await fetch(
+SUPABASE_URL+"/rest/v1/reward_ledger?select=amount,description,created_at&order=created_at.desc&limit=50",
+{
+method:"GET",
+headers:{
+"apikey":SUPABASE_PUBLISHABLE_KEY,
+"Authorization":"Bearer "+currentSession.access_token
+}
+}
+);
+
+if(!response.ok){
+throw new Error("Could not load reward history. Please try again later.");
+}
+
+const records=await response.json();
+list.replaceChildren();
+
+if(!Array.isArray(records) || records.length===0){
+list.textContent="Abhi koi reward record nahi hai.";
+return;
+}
+
+records.forEach(function(record){
+const item=document.createElement("div");
+item.className="history-item";
+
+const amount=document.createElement("strong");
+amount.textContent="Recorded amount: "+String(record.amount ?? "");
+
+const description=document.createElement("div");
+description.textContent=record.description || "Reward record";
+
+const date=document.createElement("div");
+date.className="history-meta";
+
+const parsedDate=new Date(record.created_at);
+date.textContent=Number.isNaN(parsedDate.getTime())
+?"Date unavailable"
+:parsedDate.toLocaleString();
+
+item.append(amount,description,date);
+list.appendChild(item);
+});
+
+}catch(error){
+list.textContent=error.message || "Reward history could not be loaded.";
+}
 }
 
 document.getElementById("signupTab").addEventListener("click",()=>showForm("signup"));
@@ -444,5 +508,5 @@ button.textContent="Log Out";
 </script>
 
 </body>
-                  </html>
+  </html>
   
