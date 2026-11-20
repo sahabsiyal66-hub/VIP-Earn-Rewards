@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="VIP Earn & Rewards - A new rewards experience.">
+<meta name="description" content="VIP Earn & Rewards - A new rewards experience">
 <title>VIP Earn & Rewards</title>
 
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
@@ -35,7 +35,7 @@ input{width:100%;padding:13px;border:1px solid #49617d;border-radius:7px;backgro
 input:focus{outline:1px solid #e5b84b}
 .main-btn{width:100%;padding:14px;border:none;border-radius:7px;background:#e5b84b;color:#071426;font-size:16px;font-weight:bold;cursor:pointer}
 .main-btn:disabled{opacity:.6;cursor:not-allowed}
-.captcha{margin:15px 0;overflow-x:auto}
+.captcha{margin:15px 0;min-height:65px;overflow-x:auto}
 .message{margin-top:15px;padding:12px;border-radius:7px;display:none;overflow-wrap:anywhere}
 .success{display:block;background:#123d2b;color:#a7f3c4}
 .error{display:block;background:#4b2020;color:#ffb5b5}
@@ -100,8 +100,8 @@ nav a{display:inline-block;margin:5px}
 <div class="account">
 
 <div class="tabs">
-<button type="button" id="signupTab" class="active" onclick="showForm('signup')">Sign Up</button>
-<button type="button" id="loginTab" onclick="showForm('login')">Login</button>
+<button type="button" id="signupTab" class="active">Sign Up</button>
+<button type="button" id="loginTab">Login</button>
 </div>
 
 <form id="signupForm">
@@ -109,11 +109,14 @@ nav a{display:inline-block;margin:5px}
 <label>Create Password</label>
 <input id="signupPassword" type="password" minlength="8" autocomplete="new-password" required placeholder="Create a strong password">
 </div>
+
 <div class="form-group">
 <label>Confirm Password</label>
 <input id="confirmPassword" type="password" minlength="8" autocomplete="new-password" required placeholder="Enter password again">
 </div>
+
 <div class="captcha" id="signup-captcha"></div>
+
 <button class="main-btn" id="signupButton" type="submit">Create VIP Account</button>
 <p class="small-note">Your VIP ID will be generated automatically after successful registration.</p>
 </form>
@@ -123,11 +126,14 @@ nav a{display:inline-block;margin:5px}
 <label>VIP ID</label>
 <input id="loginVipId" type="text" required autocomplete="username" placeholder="Example: VIP10001">
 </div>
+
 <div class="form-group">
 <label>Password</label>
 <input id="loginPassword" type="password" required autocomplete="current-password" placeholder="Enter your password">
 </div>
+
 <div class="captcha" id="login-captcha"></div>
+
 <button class="main-btn" id="loginButton" type="submit">Login to Account</button>
 </form>
 
@@ -168,7 +174,9 @@ nav a{display:inline-block;margin:5px}
 
 <script>
 const FUNCTION_URL="https://xrwrgdrzbroxtfyabjmy.supabase.co/functions/v1/quick-worker";
-const TURNSTILE_SITE_KEY="0x4AAAAAAGJrBkUAkbCJyzBCsgLRuL9NlBU";
+
+/* Correct Cloudflare public Site Key */
+const TURNSTILE_SITE_KEY="0x4AAAAAAGJrBih7vc_qcwZA";
 
 let signupToken="";
 let loginToken="";
@@ -197,7 +205,15 @@ document.getElementById("signupTab").classList.toggle("active",signup);
 document.getElementById("loginTab").classList.toggle("active",!signup);
 }
 
+document.getElementById("signupTab").addEventListener("click",()=>showForm("signup"));
+document.getElementById("loginTab").addEventListener("click",()=>showForm("login"));
+
 window.onTurnstileLoad=function(){
+if(typeof turnstile==="undefined"){
+showMessage("Security verification could not load. Refresh the page.","error");
+return;
+}
+
 signupWidget=turnstile.render("#signup-captcha",{
 sitekey:TURNSTILE_SITE_KEY,
 callback:function(token){signupToken=token},
@@ -221,8 +237,11 @@ body:JSON.stringify(data)
 });
 
 let result;
-try{result=await response.json()}
-catch{throw new Error("Server returned an invalid response.")}
+try{
+result=await response.json();
+}catch{
+throw new Error("Server returned an invalid response.");
+}
 
 if(!response.ok||result.success===false||result.error){
 throw new Error(result.message||result.error||"Request failed.");
@@ -267,7 +286,7 @@ currentSession=result.session||null;
 const vipId=result.vip_id||result.profile?.vip_id;
 
 if(!vipId){
-throw new Error("Account response did not include a VIP ID. Contact support.");
+throw new Error("Account response did not include a VIP ID. Contact support before trying again.");
 }
 
 document.getElementById("signupForm").reset();
