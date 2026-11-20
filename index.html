@@ -1,330 +1,333 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="VIP Earn & Rewards - Discover genuine sponsored tasks, surveys and reward opportunities.">
+<meta name="description" content="VIP Earn & Rewards - A new rewards experience.">
 <title>VIP Earn & Rewards</title>
 
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
+
 <style>
-:root {
-  --navy:#101827;
-  --navy2:#17243a;
-  --gold:#f4c45e;
-  --light:#ffe2a0;
-  --white:#f7f8fb;
-  --muted:#b8c2d3;
-  --panel:#1b2940;
-  --line:rgba(255,255,255,.12);
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--navy);
-  color:var(--white);
-  line-height:1.7;
-}
-a{color:inherit;text-decoration:none}
-.wrap{width:90%;max-width:1120px;margin:auto}
-header{
-  background:rgba(16,24,39,.97);
-  border-bottom:1px solid var(--line);
-  position:sticky;top:0;z-index:100;
-}
-.nav{
-  min-height:72px;display:flex;
-  align-items:center;justify-content:space-between;
-  gap:20px;
-}
-.logo{font-size:21px;font-weight:800;color:var(--gold)}
-.nav-links{display:flex;gap:22px;flex-wrap:wrap;font-size:14px}
-.nav-links a:hover,footer a:hover{color:var(--light)}
-.hero{
-  padding:100px 0 90px;text-align:center;
-  background:radial-gradient(ellipse at top,#263b5c 0%,transparent 65%),var(--navy);
-}
-.tag{
-  display:inline-block;color:var(--gold);
-  border:1px solid rgba(244,196,94,.4);
-  border-radius:30px;padding:7px 17px;
-  font-size:12px;letter-spacing:2px;margin-bottom:22px;
-}
-h1{font-size:clamp(36px,7vw,65px);line-height:1.15;margin-bottom:20px}
-h1 span,h2 span{color:var(--gold)}
-.hero p{max-width:680px;margin:auto;color:var(--muted);font-size:17px}
-.notice{
-  margin:30px auto 0;max-width:700px;padding:15px 18px;
-  background:rgba(244,196,94,.09);
-  border:1px solid rgba(244,196,94,.35);
-  border-radius:12px;color:var(--light);font-size:14px;
-}
-.section{padding:75px 0}
-.section-title{text-align:center;margin-bottom:40px}
-.section-title h2{font-size:clamp(28px,5vw,40px);margin-bottom:10px}
-.section-title p{color:var(--muted)}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.card{
-  background:var(--panel);border:1px solid var(--line);
-  padding:28px;border-radius:16px;transition:.2s;
-}
-.card:hover{transform:translateY(-5px);border-color:var(--gold)}
-.card .icon{font-size:35px;margin-bottom:15px}
-.card h3{color:var(--gold);font-size:21px;margin-bottom:10px}
-.card p{color:var(--muted);font-size:14px}
-.how{background:var(--navy2)}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.step{text-align:center;padding:25px}
-.number{
-  width:55px;height:55px;display:grid;place-items:center;
-  margin:0 auto 18px;border-radius:50%;
-  background:var(--gold);color:var(--navy);
-  font-size:22px;font-weight:800;
-}
-.step h3{color:var(--gold);margin-bottom:8px}
-.step p{color:var(--muted);font-size:14px}
-.about-box{
-  max-width:850px;margin:auto;text-align:center;
-  background:var(--panel);padding:35px;border-radius:16px;
-  border:1px solid var(--line);
-}
-.about-box p{color:var(--muted);margin-top:12px}
-.safety{background:var(--navy2)}
-.safety-list{max-width:800px;margin:auto;display:grid;gap:15px}
-.safety-item{
-  background:var(--panel);padding:18px 22px;
-  border:1px solid var(--line);border-radius:12px;
-}
-.safety-item h3{color:var(--gold);font-size:17px}
-.safety-item p{color:var(--muted);font-size:14px;margin-top:5px}
-.faq-list{max-width:800px;margin:auto;display:grid;gap:15px}
-.faq-item{
-  padding:20px;background:var(--panel);
-  border:1px solid var(--line);border-radius:12px;
-}
-.faq-item h3{color:var(--gold);font-size:17px;margin-bottom:7px}
-.faq-item p{color:var(--muted);font-size:14px}
-footer{
-  padding:35px 0;text-align:center;
-  border-top:1px solid var(--line);
-  color:var(--muted);font-size:13px;
-}
-footer a{color:var(--gold);text-decoration:none}
-.footer-links{margin:12px 0}
-@media(max-width:760px){
-  .nav{padding:14px 0;align-items:flex-start;flex-direction:column}
-  .nav-links{gap:12px;font-size:13px}
-  .hero{padding:70px 0}
-  .cards,.steps{grid-template-columns:1fr}
-  .section{padding:55px 0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#071426;color:#fff;line-height:1.6}
+header{background:#0c1d33;border-bottom:1px solid #c99b35;padding:17px 6%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.logo{color:#e5b84b;font-size:23px;font-weight:bold}
+nav a{color:white;text-decoration:none;margin:0 8px;font-size:14px}
+nav a:hover{color:#e5b84b}
+.hero{text-align:center;padding:75px 20px;background:linear-gradient(135deg,#102744,#071426)}
+.hero small{color:#e5b84b;letter-spacing:3px;font-weight:bold}
+h1{color:#e5b84b;font-size:clamp(32px,6vw,52px);margin:15px 0}
+.hero p{max-width:650px;margin:auto;color:#d1d9e4}
+.section{max-width:1000px;margin:auto;padding:50px 20px}
+h2{color:#e5b84b;text-align:center;margin-bottom:22px}
+.notice{border:1px solid #c99b35;background:#102744;border-radius:12px;padding:20px;text-align:center;margin:25px auto;max-width:850px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.card{background:#10233c;border:1px solid #263d59;border-radius:12px;padding:22px;text-align:center}
+.card h3{color:#e5b84b;margin-bottom:10px}
+.account{max-width:650px;margin:auto;background:#10233c;border:1px solid #c99b35;border-radius:14px;padding:25px}
+.tabs{display:flex;gap:10px;margin-bottom:22px}
+.tabs button{flex:1;padding:12px;border:1px solid #c99b35;border-radius:7px;background:transparent;color:white;cursor:pointer;font-weight:bold}
+.tabs button.active{background:#d6a63d;color:#071426}
+.form-group{margin-bottom:15px}
+label{display:block;margin-bottom:6px;color:#e5b84b}
+input{width:100%;padding:13px;border:1px solid #49617d;border-radius:7px;background:#071426;color:white;font-size:16px}
+input:focus{outline:1px solid #e5b84b}
+.main-btn{width:100%;padding:14px;border:none;border-radius:7px;background:#e5b84b;color:#071426;font-size:16px;font-weight:bold;cursor:pointer}
+.main-btn:disabled{opacity:.6;cursor:not-allowed}
+.captcha{margin:15px 0;overflow-x:auto}
+.message{margin-top:15px;padding:12px;border-radius:7px;display:none;overflow-wrap:anywhere}
+.success{display:block;background:#123d2b;color:#a7f3c4}
+.error{display:block;background:#4b2020;color:#ffb5b5}
+.hidden{display:none}
+footer{text-align:center;padding:28px 15px;background:#0c1d33;border-top:1px solid #c99b35;color:#c5ced9}
+footer a{color:#e5b84b;margin:0 8px;text-decoration:none}
+.small-note{color:#b8c4d3;font-size:13px;margin-top:12px}
+@media(max-width:600px){
+header{justify-content:center;text-align:center}
+nav{width:100%}
+nav a{display:inline-block;margin:5px}
+.hero{padding:55px 15px}
 }
 </style>
 </head>
 
 <body>
+
 <header>
-  <div class="wrap nav">
-    <a class="logo" href="#home">VIP Earn & Rewards</a>
-    <nav class="nav-links">
-      <a href="#home">Home</a>
-      <a href="#earn">Ways to Earn</a>
-      <a href="#how">How It Works</a>
-      <a href="#about">About</a>
-      <a href="#safety">Safety</a>
-      <a href="#faq">FAQ</a>
-    </nav>
-  </div>
+<div class="logo">VIP Earn & Rewards</div>
+<nav>
+<a href="#home">Home</a>
+<a href="#earn">Ways to Earn</a>
+<a href="#how">How It Works</a>
+<a href="#account">Account</a>
+</nav>
 </header>
 
-<main>
 <section class="hero" id="home">
-  <div class="wrap">
-    <div class="tag">A NEW REWARDS EXPERIENCE</div>
-    <h1>Welcome to <span>VIP Earn & Rewards</span></h1>
-    <p>
-      Discover sponsored tasks, surveys and reward opportunities
-      through a platform designed around transparency and trust.
-    </p>
-    <div class="notice">
-      <strong>Pre-Launch Notice:</strong>
-      Registration, earning activities, coin balances and withdrawals
-      are not active yet. Please do not make any payment to anyone
-      claiming to represent this platform.
-    </div>
-  </div>
+<small>A NEW REWARDS EXPERIENCE</small>
+<h1>Earn with VIP Earn & Rewards</h1>
+<p>Discover a new rewards platform. Complete eligible activities and collect rewards when approved partner opportunities become available.</p>
+<br>
+<a href="#account"><button class="main-btn" style="max-width:220px">Create Account</button></a>
 </section>
+
+<div class="notice">
+<h3 style="color:#e5b84b">Pre-Launch Notice</h3>
+<p>Account registration is being introduced. Earning activities and withdrawals are not active yet. No earnings or payout are guaranteed.</p>
+</div>
 
 <section class="section" id="earn">
-  <div class="wrap">
-    <div class="section-title">
-      <h2>Ways to <span>Earn</span></h2>
-      <p>Explore the reward opportunities planned for the platform.</p>
-    </div>
-
-    <div class="cards">
-      <div class="card">
-        <div class="icon">📝</div>
-        <h3>Surveys</h3>
-        <p>
-          Participate in eligible surveys from genuine research
-          partners when available.
-        </p>
-      </div>
-
-      <div class="card">
-        <div class="icon">🎯</div>
-        <h3>Sponsored Tasks</h3>
-        <p>
-          Complete approved sponsor tasks and follow their
-          requirements to qualify for rewards.
-        </p>
-      </div>
-
-      <div class="card">
-        <div class="icon">🏆</div>
-        <h3>Rewards</h3>
-        <p>
-          Eligible activities may provide rewards after
-          partner verification and approval.
-        </p>
-      </div>
-    </div>
-  </div>
+<h2>Ways to Earn</h2>
+<div class="cards">
+<div class="card"><h3>Surveys</h3><p>Participate in eligible surveys when approved partners become available.</p></div>
+<div class="card"><h3>Sponsored Tasks</h3><p>Discover genuine sponsor-funded tasks subject to partner rules.</p></div>
+<div class="card"><h3>Reward Offers</h3><p>Access eligible reward offers when activated on the platform.</p></div>
+</div>
 </section>
 
-<section class="section how" id="how">
-  <div class="wrap">
-    <div class="section-title">
-      <h2>How It <span>Will Work</span></h2>
-      <p>A simple process planned for future launch.</p>
-    </div>
+<section class="section" id="how">
+<h2>How It Works</h2>
+<div class="cards">
+<div class="card"><h3>01. Register</h3><p>Create your account and receive your unique VIP ID.</p></div>
+<div class="card"><h3>02. Participate</h3><p>Complete genuine activities approved by our partners.</p></div>
+<div class="card"><h3>03. Rewards</h3><p>Eligible rewards will be credited after partner verification.</p></div>
+</div>
+</section>
 
-    <div class="steps">
-      <div class="step">
-        <div class="number">1</div>
-        <h3>Create an Account</h3>
-        <p>Get your own VIP account when registration becomes available.</p>
-      </div>
+<section class="section" id="account">
+<h2>VIP Member Account</h2>
+<div class="account">
 
-      <div class="step">
-        <div class="number">2</div>
-        <h3>Complete Activities</h3>
-        <p>Choose eligible surveys and sponsored tasks.</p>
-      </div>
+<div class="tabs">
+<button type="button" id="signupTab" class="active" onclick="showForm('signup')">Sign Up</button>
+<button type="button" id="loginTab" onclick="showForm('login')">Login</button>
+</div>
 
-      <div class="step">
-        <div class="number">3</div>
-        <h3>Receive Eligible Rewards</h3>
-        <p>Approved rewards will follow published terms and payment rules.</p>
-      </div>
-    </div>
-  </div>
+<form id="signupForm">
+<div class="form-group">
+<label>Create Password</label>
+<input id="signupPassword" type="password" minlength="8" autocomplete="new-password" required placeholder="Create a strong password">
+</div>
+<div class="form-group">
+<label>Confirm Password</label>
+<input id="confirmPassword" type="password" minlength="8" autocomplete="new-password" required placeholder="Enter password again">
+</div>
+<div class="captcha" id="signup-captcha"></div>
+<button class="main-btn" id="signupButton" type="submit">Create VIP Account</button>
+<p class="small-note">Your VIP ID will be generated automatically after successful registration.</p>
+</form>
+
+<form id="loginForm" class="hidden">
+<div class="form-group">
+<label>VIP ID</label>
+<input id="loginVipId" type="text" required autocomplete="username" placeholder="Example: VIP10001">
+</div>
+<div class="form-group">
+<label>Password</label>
+<input id="loginPassword" type="password" required autocomplete="current-password" placeholder="Enter your password">
+</div>
+<div class="captcha" id="login-captcha"></div>
+<button class="main-btn" id="loginButton" type="submit">Login to Account</button>
+</form>
+
+<div id="message" class="message" role="status" aria-live="polite"></div>
+</div>
 </section>
 
 <section class="section" id="about">
-  <div class="wrap">
-    <div class="section-title">
-      <h2>About <span>VIP Earn & Rewards</span></h2>
-    </div>
-    <div class="about-box">
-      <h3>A Platform Built on Trust</h3>
-      <p>
-        Our goal is to build a transparent rewards platform
-        connecting users with genuine sponsored opportunities
-        and research activities.
-      </p>
-      <p>
-        We aim to protect user privacy, explain reward conditions
-        clearly and work only with partners whose terms allow
-        incentivized participation.
-      </p>
-    </div>
-  </div>
+<h2>About VIP Earn & Rewards</h2>
+<div class="card">
+<p>VIP Earn & Rewards aims to provide access to genuine sponsored activities and reward opportunities. Availability depends on partner approval, eligibility and verification.</p>
+</div>
 </section>
 
-<section class="section safety" id="safety">
-  <div class="wrap">
-    <div class="section-title">
-      <h2>Safety & <span>Trust</span></h2>
-      <p>Honest information and responsible platform practices.</p>
-    </div>
-
-    <div class="safety-list">
-      <div class="safety-item">
-        <h3>🔐 Privacy Matters</h3>
-        <p>We aim to collect only information genuinely needed to operate the service.</p>
-      </div>
-
-      <div class="safety-item">
-        <h3>✓ Genuine Opportunities</h3>
-        <p>Activities will be offered only when the relevant partner permits reward-based participation.</p>
-      </div>
-
-      <div class="safety-item">
-        <h3>💰 No Guaranteed Income</h3>
-        <p>Rewards depend on eligibility, task completion, partner approval and available payment arrangements.</p>
-      </div>
-
-      <div class="safety-item">
-        <h3>🛡️ No Payment to Join</h3>
-        <p>Do not send money to anyone promising guaranteed earnings or account activation.</p>
-      </div>
-    </div>
-  </div>
+<section class="section" id="safety">
+<h2>Safety & Transparency</h2>
+<div class="card">
+<p>We aim to collect only information needed to operate and secure accounts. Never share your password or private account tokens. Partner activities and withdrawals will be subject to applicable terms, verification and availability.</p>
+</div>
 </section>
 
 <section class="section" id="faq">
-  <div class="wrap">
-    <div class="section-title">
-      <h2>Frequently Asked <span>Questions</span></h2>
-    </div>
-
-    <div class="faq-list">
-      <div class="faq-item">
-        <h3>Is VIP Earn & Rewards active?</h3>
-        <p>No. The website is currently in pre-launch development. Registration and earning features are not active.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>Can I earn guaranteed money?</h3>
-        <p>No guaranteed income is promised. Any future rewards will depend on approved activities and partner terms.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>Will withdrawals be available?</h3>
-        <p>Withdrawal methods and eligibility will be announced only after payment arrangements are verified.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>Do I need to pay to join?</h3>
-        <p>No joining payment is being requested. Do not pay anyone claiming otherwise.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3>How will my information be handled?</h3>
-        <p>Please read our Privacy Policy for information about intended data collection and use.</p>
-      </div>
-    </div>
-  </div>
+<h2>Frequently Asked Questions</h2>
+<div class="cards">
+<div class="card"><h3>Is registration free?</h3><p>There is currently no registration fee.</p></div>
+<div class="card"><h3>Can I withdraw now?</h3><p>No. Withdrawal services are not active yet.</p></div>
+<div class="card"><h3>Are earnings guaranteed?</h3><p>No. Rewards depend on eligible activities and partner approval.</p></div>
+</div>
 </section>
-</main>
 
 <footer>
-  <div class="wrap">
-    © 2026 VIP Earn & Rewards. All rights reserved.
-
-    <div class="footer-links">
-      <a href="privacy.html">Privacy Policy</a>
-      &nbsp; | &nbsp;
-      <a href="terms.html">Terms & Conditions</a>
-    </div>
-
-    Rewards are not guaranteed. Offers, eligibility and payment
-    terms will be disclosed before launch.
-  </div>
+<p>© 2026 VIP Earn & Rewards. All rights reserved.</p>
+<p style="margin-top:10px">
+<a href="privacy.html">Privacy Policy</a>
+<a href="terms.html">Terms & Conditions</a>
+</p>
 </footer>
+
+<script>
+const FUNCTION_URL="https://xrwrgdrzbroxtfyabjmy.supabase.co/functions/v1/quick-worker";
+const TURNSTILE_SITE_KEY="0x4AAAAAAGJrBkUAkbCJyzBCsgLRuL9NlBU";
+
+let signupToken="";
+let loginToken="";
+let signupWidget=null;
+let loginWidget=null;
+let currentSession=null;
+
+function showMessage(message,type){
+const box=document.getElementById("message");
+box.textContent=message;
+box.className="message "+type;
+}
+
+function clearMessage(){
+const box=document.getElementById("message");
+box.textContent="";
+box.className="message";
+}
+
+function showForm(form){
+clearMessage();
+const signup=form==="signup";
+document.getElementById("signupForm").classList.toggle("hidden",!signup);
+document.getElementById("loginForm").classList.toggle("hidden",signup);
+document.getElementById("signupTab").classList.toggle("active",signup);
+document.getElementById("loginTab").classList.toggle("active",!signup);
+}
+
+window.onTurnstileLoad=function(){
+signupWidget=turnstile.render("#signup-captcha",{
+sitekey:TURNSTILE_SITE_KEY,
+callback:function(token){signupToken=token},
+"expired-callback":function(){signupToken=""},
+"error-callback":function(){signupToken=""}
+});
+
+loginWidget=turnstile.render("#login-captcha",{
+sitekey:TURNSTILE_SITE_KEY,
+callback:function(token){loginToken=token},
+"expired-callback":function(){loginToken=""},
+"error-callback":function(){loginToken=""}
+});
+};
+
+async function sendRequest(data){
+const response=await fetch(FUNCTION_URL,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(data)
+});
+
+let result;
+try{result=await response.json()}
+catch{throw new Error("Server returned an invalid response.")}
+
+if(!response.ok||result.success===false||result.error){
+throw new Error(result.message||result.error||"Request failed.");
+}
+return result;
+}
+
+document.getElementById("signupForm").addEventListener("submit",async function(event){
+event.preventDefault();
+clearMessage();
+
+const password=document.getElementById("signupPassword").value;
+const confirm=document.getElementById("confirmPassword").value;
+const button=document.getElementById("signupButton");
+
+if(password.length<8){
+showMessage("Password must be at least 8 characters.","error");
+return;
+}
+
+if(password!==confirm){
+showMessage("Passwords do not match.","error");
+return;
+}
+
+if(!signupToken){
+showMessage("Please complete the security verification first.","error");
+return;
+}
+
+button.disabled=true;
+button.textContent="Creating Account...";
+
+try{
+const result=await sendRequest({
+action:"signup",
+password:password,
+turnstile_token:signupToken
+});
+
+currentSession=result.session||null;
+const vipId=result.vip_id||result.profile?.vip_id;
+
+if(!vipId){
+throw new Error("Account response did not include a VIP ID. Contact support.");
+}
+
+document.getElementById("signupForm").reset();
+signupToken="";
+if(signupWidget!==null)turnstile.reset(signupWidget);
+
+showForm("login");
+showMessage("Account created successfully! Your VIP ID is: "+vipId,"success");
+
+}catch(error){
+showMessage(error.message||"Unable to create account.","error");
+signupToken="";
+if(signupWidget!==null)turnstile.reset(signupWidget);
+}finally{
+button.disabled=false;
+button.textContent="Create VIP Account";
+}
+});
+
+document.getElementById("loginForm").addEventListener("submit",async function(event){
+event.preventDefault();
+clearMessage();
+
+const vipId=document.getElementById("loginVipId").value.trim().toUpperCase();
+const password=document.getElementById("loginPassword").value;
+const button=document.getElementById("loginButton");
+
+if(!loginToken){
+showMessage("Please complete the security verification first.","error");
+return;
+}
+
+button.disabled=true;
+button.textContent="Logging In...";
+
+try{
+const result=await sendRequest({
+action:"login",
+vip_id:vipId,
+password:password,
+turnstile_token:loginToken
+});
+
+currentSession=result.session||null;
+showMessage("Login successful! Welcome, "+vipId,"success");
+document.getElementById("loginForm").reset();
+
+loginToken="";
+if(loginWidget!==null)turnstile.reset(loginWidget);
+
+}catch(error){
+showMessage(error.message||"Login failed. Check your VIP ID and password.","error");
+loginToken="";
+if(loginWidget!==null)turnstile.reset(loginWidget);
+}finally{
+button.disabled=false;
+button.textContent="Login to Account";
+}
+});
+</script>
 
 </body>
   </html>
-      
