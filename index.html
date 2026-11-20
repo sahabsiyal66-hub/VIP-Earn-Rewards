@@ -656,3 +656,73 @@ button.disabled=false;
 button.textContent="Add Verified Reward";
 }
 });
+
+button.disabled=false;
+button.textContent="Add Verified Reward";
+}
+});
+
+/* Logout */
+document.getElementById("logoutButton").addEventListener("click",async function(){
+
+const button=this;
+button.disabled=true;
+button.textContent="Logging Out...";
+
+try{
+
+if(!currentSession || !currentSession.access_token){
+throw new Error("Your login session is not available. Please refresh and log in again.");
+}
+
+const response=await fetch(
+SUPABASE_URL+"/auth/v1/logout",
+{
+method:"POST",
+headers:{
+"apikey":SUPABASE_PUBLISHABLE_KEY,
+"Authorization":"Bearer "+currentSession.access_token
+}
+}
+);
+
+if(!response.ok){
+throw new Error("Logout could not be confirmed. Please try again.");
+}
+
+currentSession=null;
+signupToken="";
+loginToken="";
+
+document.getElementById("adminPanel").classList.add("hidden");
+document.getElementById("dashboard").classList.add("hidden");
+document.getElementById("accountTabs").classList.remove("hidden");
+
+document.getElementById("loginForm").reset();
+document.getElementById("signupForm").reset();
+
+if(signupWidget!==null && typeof turnstile!=="undefined"){
+turnstile.reset(signupWidget);
+}
+
+if(loginWidget!==null && typeof turnstile!=="undefined"){
+turnstile.reset(loginWidget);
+}
+
+showForm("login");
+showMessage("You have been logged out successfully.","success");
+
+}catch(error){
+
+showMessage(error.message||"Logout failed. Please try again.","error");
+
+}finally{
+
+button.disabled=false;
+button.textContent="Log Out";
+}
+});
+
+</script>
+</body>
+</html>
