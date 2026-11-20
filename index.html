@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,12 +7,15 @@
 <meta name="description" content="VIP Earn & Rewards">
 <title>VIP Earn & Rewards</title>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{font-family:Arial,sans-serif;background:#071426;color:white;line-height:1.6}
-header{background:#0c1d33;border-bottom:1px solid #c99b35;padding:18px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+header{background:#0c1d33;border-bottom:1px solid #c99b35;padding:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
 .logo{font-size:23px;color:#e5b84b;font-weight:bold}
 nav a{color:white;text-decoration:none;margin:7px}
+nav a:hover{color:#e5b84b}
 .hero{text-align:center;padding:65px 18px;background:linear-gradient(135deg,#102744,#071426)}
 .hero h1{font-size:clamp(32px,6vw,50px);color:#e5b84b;margin:15px}
 .hero p{max-width:650px;margin:auto}
@@ -63,12 +67,13 @@ footer a{color:#e5b84b;margin:8px}
 .logout-btn{width:100%;padding:13px;border:1px solid #d46a6a;border-radius:7px;background:#4b2020;color:white;font-weight:bold;margin-top:18px}
 @media(max-width:600px){
 header{justify-content:center;text-align:center}
-nav{width:100%}
+nav{width:100%;text-align:center}
 .hero{padding:45px 15px}
 .dashboard{padding:15px}
 }
 </style>
 </head>
+
 <body>
 
 <header>
@@ -112,6 +117,7 @@ nav{width:100%}
 
 <section class="section" id="account">
 <h2>VIP Member Account</h2>
+
 <div class="account" id="accountBox">
 
 <div class="tabs" id="accountTabs">
@@ -122,8 +128,10 @@ nav{width:100%}
 <form id="signupForm">
 <label>Create Password</label>
 <input id="signupPassword" type="password" minlength="8" autocomplete="new-password" required placeholder="Create a strong password">
+
 <label>Confirm Password</label>
 <input id="confirmPassword" type="password" minlength="8" autocomplete="new-password" required placeholder="Enter password again">
+
 <div class="captcha" id="signup-captcha"></div>
 <button class="main-btn" id="signupButton" type="submit">Create VIP Account</button>
 <p><small>Your VIP ID will be generated automatically after successful registration.</small></p>
@@ -132,8 +140,10 @@ nav{width:100%}
 <form id="loginForm" class="hidden">
 <label>VIP ID</label>
 <input id="loginVipId" type="text" autocomplete="username" required placeholder="Example: VIP10001">
+
 <label>Password</label>
 <input id="loginPassword" type="password" autocomplete="current-password" required placeholder="Enter your password">
+
 <div class="captcha" id="login-captcha"></div>
 <button class="main-btn" id="loginButton" type="submit">Login to Account</button>
 </form>
@@ -143,37 +153,48 @@ nav{width:100%}
 <div id="dashboard" class="dashboard hidden">
 <h2>VIP Member Dashboard</h2>
 <p class="vip-welcome">Welcome to your VIP account!</p>
+
 <div class="vip-id-box">
 <small>Your VIP Member ID</small>
 <strong id="dashboardVipId">VIP</strong>
 </div>
+
 <div class="dashboard-grid">
 <div class="dash-card"><h3>Coins</h3><p>Not Active</p></div>
 <div class="dash-card"><h3>Total Earnings</h3><p>Not Active</p></div>
 <div class="dash-card"><h3>Withdrawals</h3><p>Not Active</p></div>
 </div>
+
 <div class="status-note">
 <strong>Pre-Launch Status</strong>
 <p>Reward activities and withdrawals are not available yet. Your account is successfully registered.</p>
 </div>
+
 <div class="history-box">
 <h3>Reward History</h3>
 <div id="rewardHistoryList" class="history-status" aria-live="polite">Login to view your reward history.</div>
 </div>
+
 <div id="adminPanel" class="admin-box hidden">
 <h3 class="admin-title">VIP Admin Panel</h3>
 <p class="admin-note">Only authorized administrators can add rewards. Add rewards only after genuine verification.</p>
+
 <form id="adminRewardForm">
 <label for="rewardVipId">Member VIP ID</label>
 <input id="rewardVipId" type="text" maxlength="30" required placeholder="Example: VIP10001">
+
 <label for="rewardAmount">Reward Amount</label>
 <input id="rewardAmount" type="number" min="1" step="1" required placeholder="Enter amount">
+
 <label for="rewardDescription">Reward Description</label>
 <input id="rewardDescription" type="text" maxlength="200" required placeholder="Reason for this reward">
+
 <button class="admin-btn" id="addRewardButton" type="submit">Add Verified Reward</button>
 </form>
+
 <div id="adminMessage" class="message" role="status" aria-live="polite"></div>
 </div>
+
 <button type="button" class="logout-btn" id="logoutButton">Log Out</button>
 </div>
 </div>
@@ -211,6 +232,8 @@ nav{width:100%}
 </footer>
 
 <script>
+"use strict";
+
 const FUNCTION_URL="https://xrwrgdrzbroxtfyabjmy.supabase.co/functions/v1/quick-worker";
 const SUPABASE_URL="https://xrwrgdrzbroxtfyabjmy.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_GGCK4q2VTjk8yj-nSRVEjA_KPuUQCXJ";
@@ -227,40 +250,55 @@ const box=document.getElementById("message");
 box.textContent=message;
 box.className="message "+type;
 }
+
 function showAdminMessage(message,type){
 const box=document.getElementById("adminMessage");
 box.textContent=message;
 box.className="message "+type;
 }
+
 function clearMessage(){
 const box=document.getElementById("message");
 box.textContent="";
 box.className="message";
 }
+
 function showForm(name){
 clearMessage();
+
 document.getElementById("dashboard").classList.add("hidden");
 document.getElementById("accountTabs").classList.remove("hidden");
+
 const signup=name==="signup";
+
 document.getElementById("signupForm").classList.toggle("hidden",!signup);
 document.getElementById("loginForm").classList.toggle("hidden",signup);
 document.getElementById("signupTab").classList.toggle("active",signup);
 document.getElementById("loginTab").classList.toggle("active",!signup);
 }
+
 function authHeaders(){
+if(!currentSession || !currentSession.access_token){
+throw new Error("Please log in again.");
+}
+
 return {
 "apikey":SUPABASE_PUBLISHABLE_KEY,
 "Authorization":"Bearer "+currentSession.access_token
 };
 }
+
 function showDashboard(vipId){
 clearMessage();
+
 document.getElementById("signupForm").classList.add("hidden");
 document.getElementById("loginForm").classList.add("hidden");
 document.getElementById("accountTabs").classList.add("hidden");
+
 document.getElementById("dashboardVipId").textContent=vipId;
 document.getElementById("dashboard").classList.remove("hidden");
 document.getElementById("dashboard").scrollIntoView({behavior:"smooth",block:"start"});
+
 loadRewardHistory();
 checkAdminAccess();
 }
@@ -268,36 +306,53 @@ checkAdminAccess();
 async function loadRewardHistory(){
 const list=document.getElementById("rewardHistoryList");
 list.textContent="Loading reward history...";
+
 if(!currentSession || !currentSession.access_token){
 list.textContent="Your login session is not available. Please log in again.";
 return;
 }
+
 try{
 const response=await fetch(
 SUPABASE_URL+"/rest/v1/reward_ledger?select=amount,description,created_at&order=created_at.desc&limit=50",
-{method:"GET",headers:authHeaders()}
+{
+method:"GET",
+headers:authHeaders()
+}
 );
-if(!response.ok)throw new Error("Could not load reward history. Please try again later.");
+
+if(!response.ok){
+throw new Error("Could not load reward history. Please try again later.");
+}
+
 const records=await response.json();
 list.replaceChildren();
-if(!Array.isArray(records)||records.length===0){
+
+if(!Array.isArray(records) || records.length===0){
 list.textContent="Abhi koi reward record nahi hai.";
 return;
 }
+
 records.forEach(function(record){
 const item=document.createElement("div");
 item.className="history-item";
+
 const amount=document.createElement("strong");
 amount.textContent="Recorded amount: "+String(record.amount??"");
+
 const description=document.createElement("div");
 description.textContent=record.description||"Reward record";
+
 const date=document.createElement("div");
 date.className="history-meta";
+
 const parsedDate=new Date(record.created_at);
 date.textContent=Number.isNaN(parsedDate.getTime())?"Date unavailable":parsedDate.toLocaleString();
+
 item.append(amount,description,date);
 list.appendChild(item);
 });
+
 }catch(error){
 list.textContent=error.message||"Reward history could not be loaded.";
 }
@@ -306,71 +361,57 @@ list.textContent=error.message||"Reward history could not be loaded.";
 async function checkAdminAccess(){
 const panel=document.getElementById("adminPanel");
 panel.classList.add("hidden");
-if(!currentSession||!currentSession.access_token)return;
+
+if(!currentSession || !currentSession.access_token){
+return;
+}
+
 try{
 const response=await fetch(
 SUPABASE_URL+"/rest/v1/admin_users?select=user_id&limit=1",
-{method:"GET",headers:authHeaders()}
+{
+method:"GET",
+headers:authHeaders()
+}
 );
+
 if(!response.ok)return;
+
 const rows=await response.json();
-if(Array.isArray(rows)&&rows.length>0)panel.classList.remove("hidden");
+
+if(Array.isArray(rows) && rows.length>0){
+panel.classList.remove("hidden");
+}
+
 }catch(error){
 panel.classList.add("hidden");
 }
 }
 
-document.getElementById("adminRewardForm").addEventListener("submit",async function(event){
-event.preventDefault();
-const button=document.getElementById("addRewardButton");
-const vipId=document.getElementById("rewardVipId").value.trim().toUpperCase();
-const amount=Number(document.getElementById("rewardAmount").value);
-const description=document.getElementById("rewardDescription").value.trim();
-if(!currentSession||!currentSession.access_token){
-showAdminMessage("Please log in again.","error");return;
-}
-if(!vipId){showAdminMessage("Enter a valid VIP ID.","error");return;}
-if(!Number.isSafeInteger(amount)||amount<=0){
-showAdminMessage("Enter a valid positive whole-number amount.","error");return;
-}
-if(!description||description.length>200){
-showAdminMessage("Description must be 1 to 200 characters.","error");return;
-}
-button.disabled=true;
-button.textContent="Adding Reward...";
-showAdminMessage("Verifying admin permission...","success");
-try{
-const response=await fetch(SUPABASE_URL+"/rest/v1/rpc/admin_add_reward",{
-method:"POST",
-headers:{...authHeaders(),"Content-Type":"application/json"},
-body:JSON.stringify({p_vip_id:vipId,p_amount:amount,p_description:description})
-});
-let result=null;
-try{result=await response.json();}catch{}
-if(!response.ok){
-throw new Error(result?.message||result?.error||"Reward could not be added.");
-}
-document.getElementById("adminRewardForm").reset();
-showAdminMessage("Reward added successfully for "+vipId+".","success");
-await loadRewardHistory();
-}catch(error){
-showAdminMessage(error.message||"Unable to add reward.","error");
-}finally{
-button.disabled=false;
-button.textContent="Add Verified Reward";
-}
+/* Tab buttons */
+document.getElementById("signupTab").addEventListener("click",function(){
+showForm("signup");
 });
 
-document.getElementById("signupTab").addEventListener("click",()=>showForm("signup"));
-document.getElementById("loginTab").addEventListener("click",()=>showForm("login"));
+document.getElementById("loginTab").addEventListener("click",function(){
+showForm("login");
+});
 
+/* Cloudflare Turnstile */
 window.onTurnstileLoad=function(){
+
+if(typeof turnstile==="undefined"){
+showMessage("Security verification could not load. Refresh the page and try again.","error");
+return;
+}
+
 signupWidget=turnstile.render("#signup-captcha",{
 sitekey:TURNSTILE_SITE_KEY,
 callback:function(token){signupToken=token;},
 "expired-callback":function(){signupToken="";},
 "error-callback":function(){signupToken="";}
 });
+
 loginWidget=turnstile.render("#login-captcha",{
 sitekey:TURNSTILE_SITE_KEY,
 callback:function(token){loginToken=token;},
@@ -379,7 +420,9 @@ callback:function(token){loginToken=token;},
 });
 };
 
+/* Backend request */
 async function sendRequest(data){
+
 const response=await fetch(FUNCTION_URL,{
 method:"POST",
 headers:{
@@ -389,98 +432,224 @@ headers:{
 },
 body:JSON.stringify(data)
 });
+
 let result;
-try{result=await response.json();}
-catch{throw new Error("Server returned an invalid response.");}
-if(!response.ok||result.success===false||result.error){
+
+try{
+result=await response.json();
+}catch(error){
+throw new Error("Server returned an invalid response.");
+}
+
+if(!response.ok || result.success===false || result.error){
 throw new Error(result.message||result.error||"Request failed.");
 }
+
 return result;
 }
 
+/* Signup */
 document.getElementById("signupForm").addEventListener("submit",async function(event){
+
 event.preventDefault();
 clearMessage();
+
 const password=document.getElementById("signupPassword").value;
 const confirm=document.getElementById("confirmPassword").value;
 const button=document.getElementById("signupButton");
-if(password.length<8){showMessage("Password must be at least 8 characters.","error");return;}
-if(password!==confirm){showMessage("Passwords do not match.","error");return;}
-if(!signupToken){showMessage("Please complete Cloudflare verification.","error");return;}
+
+if(password.length<8){
+showMessage("Password must be at least 8 characters.","error");
+return;
+}
+
+if(password!==confirm){
+showMessage("Passwords do not match.","error");
+return;
+}
+
+if(!signupToken){
+showMessage("Please complete Cloudflare verification.","error");
+return;
+}
+
 button.disabled=true;
 button.textContent="Creating Account...";
+
 try{
-const result=await sendRequest({action:"signup",password:password,turnstile_token:signupToken});
-currentSession=result.session||null;
+
+const result=await sendRequest({
+action:"signup",
+password:password,
+turnstile_token:signupToken
+});
+
 const vipId=result.vip_id||result.profile?.vip_id;
-if(!vipId)throw new Error("Account response did not include a VIP ID. Contact support.");
+
+if(!vipId){
+throw new Error("Account response did not include a VIP ID. Contact support.");
+}
+
 document.getElementById("signupForm").reset();
 signupToken="";
-if(signupWidget!==null)turnstile.reset(signupWidget);
+
+if(signupWidget!==null && typeof turnstile!=="undefined"){
+turnstile.reset(signupWidget);
+}
+
 showForm("login");
 showMessage("Account created successfully! Your VIP ID is: "+vipId,"success");
+
 }catch(error){
+
 showMessage(error.message||"Unable to create account.","error");
 signupToken="";
-if(signupWidget!==null)turnstile.reset(signupWidget);
+
+if(signupWidget!==null && typeof turnstile!=="undefined"){
+turnstile.reset(signupWidget);
+}
+
 }finally{
+
 button.disabled=false;
 button.textContent="Create VIP Account";
 }
 });
 
+/* Login */
 document.getElementById("loginForm").addEventListener("submit",async function(event){
+
 event.preventDefault();
 clearMessage();
+
 const vipId=document.getElementById("loginVipId").value.trim().toUpperCase();
 const password=document.getElementById("loginPassword").value;
 const button=document.getElementById("loginButton");
-if(!loginToken){showMessage("Please complete Cloudflare verification.","error");return;}
+
+if(!vipId || !password){
+showMessage("Please enter your VIP ID and password.","error");
+return;
+}
+
+if(!loginToken){
+showMessage("Please complete Cloudflare verification.","error");
+return;
+}
+
 button.disabled=true;
 button.textContent="Logging In...";
+
 try{
+
 const result=await sendRequest({
 action:"login",
 vip_id:vipId,
 password:password,
 turnstile_token:loginToken
 });
-if(!result.session||!result.session.access_token){
+
+if(!result.session || !result.session.access_token){
 throw new Error("Login response did not include a valid session. Please contact support.");
 }
+
 currentSession=result.session;
+
 document.getElementById("loginForm").reset();
 loginToken="";
-if(loginWidget!==null)turnstile.reset(loginWidget);
+
+if(loginWidget!==null && typeof turnstile!=="undefined"){
+turnstile.reset(loginWidget);
+}
+
 showDashboard(vipId);
+
 }catch(error){
+
 showMessage(error.message||"Login failed. Check your VIP ID and password.","error");
 loginToken="";
-if(loginWidget!==null)turnstile.reset(loginWidget);
+
+if(loginWidget!==null && typeof turnstile!=="undefined"){
+turnstile.reset(loginWidget);
+}
+
 }finally{
+
 button.disabled=false;
 button.textContent="Login to Account";
 }
 });
 
-document.getElementById("logoutButton").addEventListener("click",async function(){
-const button=this;
-button.disabled=true;
-button.textContent="Logging Out...";
-try{
-if(!currentSession||!currentSession.access_token){
-throw new Error("Your login session is not available. Please refresh and log in again.");
+/* Admin reward form */
+document.getElementById("adminRewardForm").addEventListener("submit",async function(event){
+
+event.preventDefault();
+
+const button=document.getElementById("addRewardButton");
+const vipId=document.getElementById("rewardVipId").value.trim().toUpperCase();
+const amount=Number(document.getElementById("rewardAmount").value);
+const description=document.getElementById("rewardDescription").value.trim();
+
+if(!currentSession || !currentSession.access_token){
+showAdminMessage("Please log in again.","error");
+return;
 }
-const response=await fetch(SUPABASE_URL+"/auth/v1/logout",{
+
+if(!vipId){
+showAdminMessage("Enter a valid VIP ID.","error");
+return;
+}
+
+if(!Number.isSafeInteger(amount) || amount<=0){
+showAdminMessage("Enter a valid positive whole-number amount.","error");
+return;
+}
+
+if(!description || description.length>200){
+showAdminMessage("Description must be 1 to 200 characters.","error");
+return;
+}
+
+button.disabled=true;
+button.textContent="Adding Reward...";
+showAdminMessage("Verifying admin permission...","success");
+
+try{
+
+const response=await fetch(
+SUPABASE_URL+"/rest/v1/rpc/admin_add_reward",
+{
 method:"POST",
 headers:{
-"apikey":SUPABASE_PUBLISHABLE_KEY,
-"Authorization":"Bearer "+currentSession.access_token
+...authHeaders(),
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+p_vip_id:vipId,
+p_amount:amount,
+p_description:description
+})
 }
-});
-if(!response.ok)throw new Error("Logout could not be confirmed. Please try again.");
-currentSession=null;
-document.getElementById("adminPanel").classList.add("hidden");
-document.getElementById("dashboard").classList.add("hidden");
-document.getElementById("accountTabs").classList.remove("hidden");
-document.getElementById("loginForm").reset(
+);
+
+let result=null;
+
+try{
+result=await response.json();
+}catch(error){}
+
+if(!response.ok){
+throw new Error(result?.message||result?.error||"Reward could not be added.");
+}
+
+document.getElementById("adminRewardForm").reset();
+showAdminMessage("Reward added successfully for "+vipId+".","success");
+
+await loadRewardHistory();
+
+}catch(error){
+
+showAdminMessage(error.message||"Unable to add reward.","error");
+
+}finally{
+
+butto
